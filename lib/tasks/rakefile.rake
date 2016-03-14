@@ -14,6 +14,28 @@ namespace :diff do
     require_relative '../html_diff/runner'
     HtmlDiff::Runner.new.run
   end
+
+  desc 'produce text diffs'
+  task :text do
+    require_relative '../text_diff/runner'
+
+    if ARGV.tap(&:shift).empty?
+      abort "You must provide one or more YAML files containing the pages to diff"
+    end
+
+    left  = ENV.fetch("LEFT", "www-origin.staging.publishing.service.gov.uk")
+    right = ENV.fetch("RIGHT", "www-origin.publishing.service.gov.uk")
+
+    require 'yaml'
+
+    ARGV.each do |file|
+      TextDiff::Runner.new(
+        pages: YAML.load_file(file),
+        left_domain: left,
+        right_domain: right
+      ).run
+    end
+  end
 end
 
 namespace :config do

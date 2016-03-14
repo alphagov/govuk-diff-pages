@@ -5,3 +5,7 @@ gem 'rspec', '~> 3.4'
 gem 'rest-client', '~> 1.8'
 gem 'govuk-lint', '~> 0.5'
 gem 'diffy', '~> 3.1'
+
+group :development, :test do
+  gem 'pry-byebug'
+end
