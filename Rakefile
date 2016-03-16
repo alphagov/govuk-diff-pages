@@ -1,3 +1,6 @@
-load File.dirname(__FILE__) + '/lib/tasks/rakefile.rake'
+require "rspec/core/rake_task"
 
-task :default => [:spec]
+load File.dirname(__FILE__) + "/lib/govuk/diff/pages/tasks/rakefile.rake"
+
+RSpec::Core::RakeTask.new(:spec)
+task default: :spec
