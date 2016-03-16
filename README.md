@@ -74,4 +74,4 @@ individual page files.
 
 ## Licence
 
-[MIT License](LICENCE)
+[MIT License](LICENCE.txt)
