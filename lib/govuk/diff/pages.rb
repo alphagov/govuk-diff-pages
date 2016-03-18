@@ -19,15 +19,21 @@ module Govuk
       end
 
       def self.govuk_pages_file
-        File.expand_path(root_dir + '/../../config/govuk_pages.yml')
+        config_file 'govuk_pages.yml'
       end
 
       def self.wraith_config_file
-        File.expand_path(root_dir + '/../../config/wraith.yaml')
+        config_file 'wraith.yaml'
       end
 
       def self.settings_file
-        File.expand_path(root_dir + '/../../config/settings.yml')
+        config_file 'settings.yml'
+      end
+
+    private
+
+      def self.config_file(filename)
+        File.expand_path(root_dir + "/../../config/#{filename}")
       end
     end
   end
