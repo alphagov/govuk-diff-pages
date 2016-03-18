@@ -18,7 +18,7 @@ module Govuk
           def initialize(config)
             @config = config
             @template = File.read "#{Govuk::Diff::Pages.root_dir}/diff/pages/html_diff/assets/html_diff_template.erb"
-            @diff_dir = "#{Govuk::Diff::Pages.root_dir}/#{@config.html_diff.directory}"
+            @diff_dir = File.join(Govuk::Diff::Pages.root_dir, '..', '..', @config.html_diff.directory)
             reset_html_diffs_dir
             @differing_pages = {}
           end
@@ -48,7 +48,7 @@ module Govuk
           end
 
           def html_diff_filename(base_path)
-            "#{Govuk::Diff::Pages.root_dir}/#{@config.html_diff.directory}/#{safe_filename(base_path)}.html"
+            File.join(@diff_dir, "#{safe_filename(base_path)}.html")
           end
 
           def safe_filename(base_path)

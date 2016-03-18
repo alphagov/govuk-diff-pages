@@ -16,7 +16,7 @@ module Govuk
           if path_or_hash.is_a?(Hash)
             @config = populate_config(path_or_hash)
           else
-            path_or_hash ||= "#{Govuk::Diff::Pages.root_dir}/config/settings.yml"
+            path_or_hash ||= Govuk::Diff::Pages.settings_file
             hash = YAML.load_file(path_or_hash)
             @config = populate_config(hash)
           end

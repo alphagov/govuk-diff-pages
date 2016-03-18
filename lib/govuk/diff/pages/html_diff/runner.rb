@@ -25,7 +25,7 @@ module Govuk
 
           def create_gallery_page
             @result_hash = @differ.differing_pages
-            shots_dir = "#{Govuk::Diff::Pages.root_dir}/#{@config.html_diff.directory}"
+            shots_dir = File.join(Govuk::Diff::Pages.root_dir, "..", "..", @config.html_diff.directory)
             Dir.mkdir(shots_dir) unless Dir.exist?(shots_dir)
             renderer = ERB.new(@gallery_template)
             File.open("#{shots_dir}/gallery.html", "w") do |fp|

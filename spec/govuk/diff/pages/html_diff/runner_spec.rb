@@ -1,6 +1,6 @@
 describe Govuk::Diff::Pages::HtmlDiff::Runner do
   after(:all) do
-    test_output_dir = "#{Govuk::Diff::Pages.root_dir}/html_diff_dir"
+    test_output_dir = File.join(Govuk::Diff::Pages.root_dir, '..', '..', 'html_diff_dir')
     FileUtils.rm_r test_output_dir, secure: true if Dir.exist?(test_output_dir)
   end
 

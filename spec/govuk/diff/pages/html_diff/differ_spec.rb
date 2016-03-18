@@ -74,7 +74,7 @@ describe Govuk::Diff::Pages::HtmlDiff::Differ do
       it 'adds the base path to the list of differing pages' do
         expect(differ).to receive(:write_diff_page).with(target_base_path, instance_of(String))
         differ.diff(target_base_path)
-        expect(differ.differing_pages).to eq(target_base_path => "#{Govuk::Diff::Pages.root_dir}/html_diff_dir/my_base_path.html")
+        expect(differ.differing_pages[target_base_path]).to end_with("html_diff_dir/my_base_path.html")
       end
     end
   end
@@ -123,17 +123,5 @@ describe Govuk::Diff::Pages::HtmlDiff::Differ do
 
   def squish(html)
     html.delete("\n").gsub(/>\s+/, '>').gsub(/\s+</, '<')
-  end
-
-  describe '#html_diff_file_name' do
-    it 'makes valid filename in html diff directory' do
-      base_path = '/my_base_path/subdir'
-      expect(differ.send(:html_diff_filename, base_path)).to eq "#{Govuk::Diff::Pages.root_dir}/html_diff_dir/my_base_path.subdir.html"
-    end
-
-    it 'makes valid filename in html diff directory when trailing slash present' do
-      base_path = '/my_base_path/subdir/'
-      expect(differ.send(:html_diff_filename, base_path)).to eq "#{Govuk::Diff::Pages.root_dir}/html_diff_dir/my_base_path.subdir.html"
-    end
   end
 end
