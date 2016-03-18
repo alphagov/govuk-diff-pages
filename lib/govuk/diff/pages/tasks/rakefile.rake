@@ -4,7 +4,7 @@ namespace :diff do
   desc 'produce visual diffs'
   task visual: ['config:pre_flight_check'] do
     puts "---> Creating Visual Diffs"
-    cmd = "wraith capture #{Govuk::Diff::Pages::WRAITH_CONFIG_FILE}"
+    cmd = "wraith capture #{Govuk::Diff::Pages.wraith_config_file}"
     puts cmd
     system cmd
   end

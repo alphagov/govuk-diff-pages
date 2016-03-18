@@ -25,7 +25,7 @@ module Govuk
         end
 
         def save
-          File.open(WRAITH_CONFIG_FILE, 'w') do |fp|
+          File.open(Govuk::Diff::Pages.wraith_config_file, 'w') do |fp|
             fp.puts YAML.dump(@wraith_config)
           end
         end
