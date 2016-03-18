@@ -6,7 +6,7 @@ module Govuk
       class PageIndexer
         def initialize
           @pages = []
-          @config = AppConfig.new("#{Govuk::Diff::Pages.root_dir}/config/settings.yml")
+          @config = AppConfig.new(Govuk::Diff::Pages.settings_file)
         end
 
         def run

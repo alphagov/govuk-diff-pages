@@ -25,6 +25,10 @@ module Govuk
       def self.wraith_config_file
         File.expand_path(root_dir + '/../../config/wraith.yaml')
       end
+
+      def self.settings_file
+        File.expand_path(root_dir + '/../../config/settings.yml')
+      end
     end
   end
 end
