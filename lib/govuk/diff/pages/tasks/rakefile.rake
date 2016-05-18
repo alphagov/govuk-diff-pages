@@ -33,6 +33,17 @@ namespace :diff do
       ).run
     end
   end
+
+  desc "clears the screen shots directory"
+  task :clear_shots do
+    puts "---> Clearing shots directory"
+    require 'fileutils'
+    config = Govuk::Diff::Pages::AppConfig.new
+    [config.wraith.directory, config.html_diff.directory].each do |directory|
+      shots_dir = "#{Govuk::Diff::Pages.root_dir}/#{directory}"
+      FileUtils.remove_dir shots_dir
+    end
+  end
 end
 
 namespace :config do
@@ -69,25 +80,10 @@ namespace :config do
     puts "---> Updating page list"
     Govuk::Diff::Pages::PageIndexer.new.run
   end
-end
 
-namespace :shots do
-  desc "clears the screen shots directory"
-  task :clear do
-    puts "---> Clearing shots directory"
-    require 'fileutils'
-    config = Govuk::Diff::Pages::AppConfig.new
-    [config.wraith.directory, config.html_diff.directory].each do |directory|
-      shots_dir = "#{Govuk::Diff::Pages.root_dir}/#{directory}"
-      FileUtils.remove_dir shots_dir
-    end
+  desc 'checks all URLs are accessible'
+  task :check_urls do
+    Govuk::Diff::Pages::LinkChecker.new.run
   end
 end
 
-desc 'Generate config files and run diffs'
-task diff: ['config:update_page_list', 'config:wraith', 'diff:visual', 'diff:html']
-
-desc 'checks all URLs are accessible'
-task :check_urls do
-  Govuk::Diff::Pages::LinkChecker.new.run
-end
