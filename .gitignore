@@ -27,7 +27,6 @@
 
 # generated config files
 config/govuk_pages.yml
-config/wraith.yaml
 
 # This is a gem
 Gemfile.lock

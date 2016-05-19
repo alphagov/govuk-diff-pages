@@ -3,10 +3,8 @@ require 'govuk/diff/pages'
 namespace :diff do
   desc 'produce visual diffs'
   task visual: ['config:pre_flight_check'] do
-    puts "---> Creating Visual Diffs"
-    cmd = "wraith capture #{Govuk::Diff::Pages.wraith_config_file}"
-    puts cmd
-    system cmd
+    yaml_uri = ENV.fetch("URI")
+    Govuk::Diff::Pages::VisualDiff::Runner.new(list_of_pages_uri: yaml_uri).run
   end
 
   desc 'produce html diffs'
@@ -62,17 +60,8 @@ namespace :config do
       end
     end
     unless dependencies_present
-      puts "ERROR: A required dependency is not installed"
-      exit 1
+      abort("ERROR: A required dependency is not installed")
     end
-  end
-
-  desc 'merges settings.yml with govuk_pages.yml to produce merged config file for wraith'
-  task :wraith do
-    puts "---> Generating Wraith config"
-    generator = Govuk::Diff::Pages::WraithConfigGenerator.new
-    generator.run
-    generator.save
   end
 
   desc 'update config files with list of pages to diff'
