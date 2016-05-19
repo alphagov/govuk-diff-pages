@@ -21,7 +21,7 @@ module Govuk
             config_template["paths"] = wraith_formatted_paths
             wraith_config = File.new(location, "w")
             wraith_config.write(YAML.dump config_template)
-            wraith_config.tap { |file| file.close }
+            wraith_config.tap(&:close)
           end
 
           def delete

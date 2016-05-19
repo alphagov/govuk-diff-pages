@@ -36,11 +36,7 @@ namespace :diff do
   task :clear_shots do
     puts "---> Clearing shots directory"
     require 'fileutils'
-    config = Govuk::Diff::Pages::AppConfig.new
-    [config.wraith.directory, config.html_diff.directory].each do |directory|
-      shots_dir = "#{Govuk::Diff::Pages.root_dir}/#{directory}"
-      FileUtils.remove_dir shots_dir
-    end
+    FileUtils.remove_dir Govuk::Diff::Pages.shots_dir
   end
 end
 
@@ -75,4 +71,3 @@ namespace :config do
     Govuk::Diff::Pages::LinkChecker.new.run
   end
 end
-

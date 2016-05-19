@@ -18,6 +18,10 @@ module Govuk
         File.dirname __dir__
       end
 
+      def self.shots_dir
+        File.expand_path(root_dir + "/../../shots")
+      end
+
       def self.govuk_pages_file
         config_file 'govuk_pages.yml'
       end

@@ -6,7 +6,7 @@ describe Govuk::Diff::Pages::VisualDiff::WraithConfig do
 
       expect(File.exist? wraith_config.location).to be true
       config_data = YAML.load_file wraith_config.location
-      expect(config_data["paths"].values).to match_array ["foo", "bar"]
+      expect(config_data["paths"].values).to match_array %w{foo bar}
 
       wraith_config.delete
       expect(File.exist? wraith_config.location).to be false
