@@ -7,7 +7,7 @@ module Govuk
       module HtmlDiff
         class Runner
           def self.results_dir
-            File.join(Govuk::Diff::Pages.results_dir, "html-diff")
+            File.join(Govuk::Diff::Pages.results_dir, "html")
           end
 
           def self.assets_dir

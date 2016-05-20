@@ -1,43 +1,56 @@
 # govuk-diff-pages
 
-This project provides a rake task to produce visual diffs as screenshots, HTML
-diffs and textual diffs of the production GOV.UK website as compared with
-staging. Viewable as browser pages or directly in the terminal.
+This app provides a set of rake tasks that produce diffs of the staging and
+production GOV.UK websites. Diffs are provided in 3 distinct forms:
 
-## Screenshots
+* Visual
+  * Screenshots of pages in each environment, compared and presented in an HTML
+    gallery for viewing in a browser.
+* HTML
+  * Diffs of the markup on each page, also presented in gallery form.
+* Text
+  * Diffs of text content on each page, with the results sent to STDOUT.
 
+## Visual Diffs
+These use a fork of the BBC's wraith gem (https://github.com/alphagov/wraith).
+The fork adds two extra configuration variables, allowing the user to specify
+the number of threads to use, and the maximum timeout when loading pages.
+
+### Running
+The rake task expects an env var `URI` to be set - this should be the location
+of a YAML file containing a list of GOV.UK paths to run the diff against. See
+spec/fixtures/test_paths.yaml for an example.
+
+    bundle exec rake diff:visual URI=https://uri/to/a/yaml/file.yaml
+
+Results are written to `$PROJECT_ROOT/results/visual/gallery.html`.
+
+### Dependencies
+The following are required in order to run a visual diff. A pre-flight check
+for these dependencies runs when you execute the `diff:visual` task.
+
+- [ImageMagick](http://www.imagemagick.org/script/index.php)
+- [phantomjs](http://phantomjs.org/) - preferrably 1.9 rather than 2.0
+
+### Examples
 ![Example output](docs/screenshots/gallery.png?raw=true "Example gallery of
 differing pages")
 
+## HTML Diffs
+These use Diffy gem (https://github.com/samg/diffy) as the underlying diff
+library.
 
-## Technical documentation for visual and HTML diffs
+### Running
+Expects `URI` to be set, as with Visual Diffs.
 
-It uses a fork of the BBC's wraith gem (The fork is at
-https://github.com/alphagov/wraith, the main gem at
-https://github.com/BBC-News/wraith).  The fork adds two extra configuration
-variables, allowing the user to specify the number of threads to use, and the
-maximum timeout when loading pages.  The output is written to an html file
-which can be viewed in a browser.
+    bundle exec rake diff:html URI=https://uri/to/a/yaml/file.yaml
 
-When `bundle exec rake diff` is run, a list of all the document formats on
-govuk is obtained using the search api, and then the top n pages for each
-format (n being a configuration variable).  Diffs are produced for each of
-these pages.
+Results are written to `$PROJECT_ROOT/results/html/gallery.html`.
 
+## Text Diffs
+These also use Diffy gem.
 
-### Dependencies
-
-- [ImageMagick] (http://www.imagemagick.org/script/index.php)
-- [phantomjs] (http://phantomjs.org/) - preferrably 1.9 rather than 2.0
-
-## How to run
-
-### Running the application locally
-
-    bundle exec rake diff
-
-### Checking plain-text diffs
-
+### Running
     bundle exec rake diff:text pages.yml
 
 Where `pages.yml` is a YAML array of paths to compare. For example:
@@ -55,20 +68,9 @@ environment variables. Defaulting to our `www-origin.staging` and
 Plain-text diffing can be parallelised by starting multiple processes with
 individual page files.
 
-### Using the gem from an existing project
+## Running the test suite
 
-    # Gemfile
-    gem 'govuk-diff-pages'
-
-    # Rakefile
-    load 'govuk/diff/pages/tasks/rakefile.rake'
-
-    # Shell
-    bundle exec rake -T
-
-### Running the test suite
-
-    bundle exec rake
+    bundle exec rspec
 
 ## Licence
 
