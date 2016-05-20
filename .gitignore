@@ -23,7 +23,3 @@
 
 # generated results
 /results
-
-# This is a gem
-Gemfile.lock
-*.gem

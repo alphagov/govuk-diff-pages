@@ -11,8 +11,4 @@ if [[ ${GIT_BRANCH} != "origin/master" ]]; then
   bundle exec govuk-lint-ruby --format clang
 fi
 
-bundle exec rake
-
-if [[ -n "$PUBLISH_GEM" ]]; then
-  bundle exec rake publish_gem
-fi
+bundle exec rspec spec

@@ -1,5 +1,3 @@
-require "govuk/diff/pages/version"
-
 module Govuk
   module Diff
     module Pages

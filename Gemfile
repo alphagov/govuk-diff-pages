@@ -1,6 +1,14 @@
-source 'https://rubygems.org'
+source "https://rubygems.org"
 
-gem 'wraith', git: 'git@github.com:alphagov/wraith.git', branch: 'psr'
-gem 'govuk-lint', '~> 0.8'
+gem "wraith", github: "alphagov/wraith", branch: "psr"
+gem "diffy", "~> 3.1"
+gem "rest-client", "~> 1.8"
+gem "nokogiri"
 
-gemspec
+gem "govuk-lint", "~> 0.8"
+
+group :development do
+  gem "rake", "~> 10.0"
+  gem "rspec", "~> 3.0"
+  gem "pry-byebug"
+end
