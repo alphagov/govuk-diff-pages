@@ -1,21 +1,13 @@
 describe Govuk::Diff::Pages::HtmlDiff::Differ do
   after(:all) do
-    test_output_dir = "#{Govuk::Diff::Pages.root_dir}/html_diff_dir"
-    FileUtils.rm_r test_output_dir, secure: true if Dir.exist?(test_output_dir)
+    test_output_dir = Govuk::Diff::Pages::HtmlDiff::Runner.results_dir
+    FileUtils.rm_r(test_output_dir, secure: true) if Dir.exist?(test_output_dir)
   end
 
-  let(:config) {
-    double(:AppConfig,
-      domains: double('domains',
-        production: 'https://www.gov.uk',
-        staging: 'https://staging.gov.uk'),
-      html_diff: double('html_diff',
-        directory: 'html_diff_dir'))
-  }
-  let(:differ) { described_class.new(config) }
+  let(:differ) { described_class.new }
   let(:target_base_path) { '/my_base_path' }
-  let(:production_url) { "https://www.gov.uk/my_base_path" }
-  let(:staging_url) { "https://staging.gov.uk/my_base_path" }
+  let(:production_url) { "https://www-origin.publishing.service.gov.uk/my_base_path" }
+  let(:staging_url) { "https://www-origin.staging.publishing.service.gov.uk/my_base_path" }
 
   describe '#diff' do
     context 'getting and normalizing the html' do
@@ -74,7 +66,7 @@ describe Govuk::Diff::Pages::HtmlDiff::Differ do
       it 'adds the base path to the list of differing pages' do
         expect(differ).to receive(:write_diff_page).with(target_base_path, instance_of(String))
         differ.diff(target_base_path)
-        expect(differ.differing_pages[target_base_path]).to end_with("html_diff_dir/my_base_path.html")
+        expect(differ.differing_pages[target_base_path]).to end_with("html-diff/my_base_path.html")
       end
     end
   end

@@ -9,7 +9,8 @@ namespace :diff do
 
   desc 'produce html diffs - set env var `URI` with location of a yaml file containing paths to diff'
   task :html do
-    Govuk::Diff::Pages::HtmlDiff::Runner.new.run
+    yaml_uri = ENV.fetch("URI")
+    Govuk::Diff::Pages::HtmlDiff::Runner.new(list_of_pages_uri: yaml_uri).run
   end
 
   desc 'produce text diffs'

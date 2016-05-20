@@ -1,42 +1,53 @@
 require 'yaml'
+require 'open-uri'
 
 module Govuk
   module Diff
     module Pages
       module HtmlDiff
         class Runner
-          def initialize
-            @config = AppConfig.new
-            @govuk_pages = YAML.load_file(Govuk::Diff::Pages.govuk_pages_file)
-            @gallery_template = File.read(
-              "#{Govuk::Diff::Pages.root_dir}/diff/pages/html_diff/assets/gallery_template.erb"
-            )
-            @differ = Differ.new(@config)
+          def self.results_dir
+            File.join(Govuk::Diff::Pages.shots_dir, "html-diff")
+          end
+
+          def self.assets_dir
+            File.expand_path("../assets", __FILE__)
+          end
+
+          def initialize(list_of_pages_uri:)
+            @list_of_pages_uri = list_of_pages_uri
+            @differ = Differ.new
           end
 
           def run
-            @govuk_pages.each do |page|
-              @differ.diff(page)
-            end
-            create_gallery_page
+            diff_pages
+            create_gallery
           end
 
         private
 
-          def create_gallery_page
-            @result_hash = @differ.differing_pages
-            shots_dir = File.join(Govuk::Diff::Pages.root_dir, "..", "..", @config.html_diff.directory)
-            Dir.mkdir(shots_dir) unless Dir.exist?(shots_dir)
-            renderer = ERB.new(@gallery_template)
-            File.open("#{shots_dir}/gallery.html", "w") do |fp|
-              fp.puts renderer.result(binding)
+          def diff_pages
+            @pages = YAML.load open(@list_of_pages_uri)
+
+            @pages.each do |page|
+              @differ.diff(page)
             end
-            display_browser_message(shots_dir)
           end
 
-          def display_browser_message(shots_dir)
-            puts "View the gallery of HTML diffs in your browser:"
-            puts "         file://#{shots_dir}/gallery.html"
+          def create_gallery
+            gallery_template = File.read(File.join(self.class.assets_dir, "gallery_template.erb"))
+            @result_hash = @differ.differing_pages
+            FileUtils.mkdir_p(self.class.results_dir)
+            renderer = ERB.new(gallery_template)
+            File.open("#{self.class.results_dir}/gallery.html", "w") do |fp|
+              fp.puts renderer.result(binding)
+            end
+            display_browser_message
+          end
+
+          def display_browser_message
+            Kernel.puts "View the gallery of HTML diffs in your browser:"
+            Kernel.puts "\tfile://#{self.class.results_dir}/gallery.html"
           end
         end
       end
