@@ -12,6 +12,6 @@ timeout_ms: 2000
 # These paths will be populated by GovUk::Diff:Pages::VisualDiff::Runner
 paths:
 domains:
-  production: https://www-origin.staging.publishing.service.gov.uk
+  production: https://www-origin.publishing.service.gov.uk
   staging: https://www-origin.staging.publishing.service.gov.uk
 phantomjs_options: "--ssl-protocol=tlsv1 --ignore-ssl-errors=true"
