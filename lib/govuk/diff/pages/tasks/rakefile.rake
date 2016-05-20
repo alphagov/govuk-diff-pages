@@ -1,13 +1,13 @@
 require 'govuk/diff/pages'
 
 namespace :diff do
-  desc 'produce visual diffs'
+  desc 'produce visual diffs - set env var `URI` with location of a yaml file containing paths to diff'
   task visual: ['config:pre_flight_check'] do
     yaml_uri = ENV.fetch("URI")
     Govuk::Diff::Pages::VisualDiff::Runner.new(list_of_pages_uri: yaml_uri).run
   end
 
-  desc 'produce html diffs'
+  desc 'produce html diffs - set env var `URI` with location of a yaml file containing paths to diff'
   task :html do
     Govuk::Diff::Pages::HtmlDiff::Runner.new.run
   end
