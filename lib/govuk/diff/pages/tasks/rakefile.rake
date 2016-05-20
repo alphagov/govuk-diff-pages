@@ -33,11 +33,11 @@ namespace :diff do
     end
   end
 
-  desc "clears the screen shots directory"
-  task :clear_shots do
-    puts "---> Clearing shots directory"
+  desc "clears the results directory"
+  task :clear_results do
+    puts "---> Clearing results directory"
     require 'fileutils'
-    FileUtils.remove_dir Govuk::Diff::Pages.shots_dir
+    FileUtils.remove_dir Govuk::Diff::Pages.results_dir
   end
 end
 
@@ -59,16 +59,5 @@ namespace :config do
     unless dependencies_present
       abort("ERROR: A required dependency is not installed")
     end
-  end
-
-  desc 'update config files with list of pages to diff'
-  task :update_page_list do
-    puts "---> Updating page list"
-    Govuk::Diff::Pages::PageIndexer.new.run
-  end
-
-  desc 'checks all URLs are accessible'
-  task :check_urls do
-    Govuk::Diff::Pages::LinkChecker.new.run
   end
 end

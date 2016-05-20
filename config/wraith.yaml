@@ -1,7 +1,7 @@
 ---
 browser:
   phantomjs: phantomjs
-directory: shots/visual
+directory: results/visual
 screen_widths:
 - 1024
 mode: diffs_first # change this to diffs_only when not dev'ing
