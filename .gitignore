@@ -18,15 +18,11 @@
 /coverage
 /spec/reports
 
-
 # OS-generated files
 .DS_Store
 
 # shots generated
 /shots
-
-# generated config files
-config/govuk_pages.yml
 
 # This is a gem
 Gemfile.lock
