@@ -1,0 +1,17 @@
+---
+browser:
+  phantomjs: phantomjs
+directory: shots/visual
+screen_widths:
+- 1024
+mode: diffs_first # change this to diffs_only when not dev'ing
+fuzz: 5%
+threshold: 5
+num_threads: 4
+timeout_ms: 2000
+# These paths will be populated by GovUk::Diff:Pages::VisualDiff::Runner
+paths:
+domains:
+  production: https://www-origin.publishing.service.gov.uk
+  staging: https://www-origin.staging.publishing.service.gov.uk
+phantomjs_options: "--ssl-protocol=tlsv1 --ignore-ssl-errors=true"
