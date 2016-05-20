@@ -1,6 +1,3 @@
-require 'yaml'
-require 'open-uri'
-
 module Govuk
   module Diff
     module Pages
@@ -15,7 +12,7 @@ module Govuk
           end
 
           def initialize(list_of_pages_uri:)
-            @list_of_pages_uri = list_of_pages_uri
+            @pages = list_of_pages_uri
             @differ = Differ.new
           end
 
@@ -27,8 +24,6 @@ module Govuk
         private
 
           def diff_pages
-            @pages = YAML.load open(@list_of_pages_uri)
-
             @pages.each do |page|
               @differ.diff(page)
             end
@@ -37,11 +32,13 @@ module Govuk
           def create_gallery
             gallery_template = File.read(File.join(self.class.assets_dir, "gallery_template.erb"))
             @result_hash = @differ.differing_pages
+
             FileUtils.mkdir_p(self.class.results_dir)
             renderer = ERB.new(gallery_template)
             File.open("#{self.class.results_dir}/gallery.html", "w") do |fp|
               fp.puts renderer.result(binding)
             end
+
             display_browser_message
           end
 

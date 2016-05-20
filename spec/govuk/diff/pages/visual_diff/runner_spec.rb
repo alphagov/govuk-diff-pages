@@ -3,7 +3,7 @@ describe Govuk::Diff::Pages::VisualDiff::Runner do
     let(:kernel) { double }
     let(:input_file) { FixtureHelper.locate("test_paths.yaml") }
     let(:config_handler_klass) { Govuk::Diff::Pages::VisualDiff::WraithConfig }
-    let(:config_handler) { config_handler_klass.new(paths: YAML.load_file(input_file)) }
+    let(:config_handler) { config_handler_klass.new(paths: input_file) }
 
     before do
       allow(config_handler_klass).to receive(:new).and_return(config_handler)
