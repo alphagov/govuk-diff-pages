@@ -15,10 +15,10 @@ module Govuk
 
           attr_reader :differing_pages
 
-          def initialize(config)
-            @config = config
-            @template = File.read "#{Govuk::Diff::Pages.root_dir}/diff/pages/html_diff/assets/html_diff_template.erb"
-            @diff_dir = File.join(Govuk::Diff::Pages.root_dir, '..', '..', @config.html_diff.directory)
+          def initialize
+            assets_path = Runner.assets_dir
+            @template = File.read(File.join(assets_path, "html_diff_template.erb"))
+            @diff_dir = Runner.results_dir
             reset_html_diffs_dir
             @differing_pages = {}
           end
@@ -36,7 +36,7 @@ module Govuk
         private
 
           def reset_html_diffs_dir
-            Dir.mkdir(@diff_dir) unless Dir.exist?(@diff_dir)
+            FileUtils.mkdir_p(@diff_dir)
             FileUtils.rm Dir.glob("#{@diff_dir}/*")
           end
 
@@ -72,11 +72,11 @@ module Govuk
           end
 
           def production_url(base_path)
-            "#{@config.domains.production}#{base_path}"
+            "https://www-origin.publishing.service.gov.uk#{base_path}"
           end
 
           def staging_url(base_path)
-            "#{@config.domains.staging}#{base_path}"
+            "https://www-origin.staging.publishing.service.gov.uk#{base_path}"
           end
         end
       end

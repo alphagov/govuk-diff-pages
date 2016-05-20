@@ -1,6 +1,6 @@
 describe Govuk::Diff::Pages::VisualDiff::Runner do
   describe "#run" do
-    let(:yaml_file_uri) { File.expand_path("test_paths.yaml", File.dirname(__FILE__)) }
+    let(:yaml_file_uri) { FixtureHelper.locate("test_paths.yaml") }
     let(:config_klass) { Govuk::Diff::Pages::VisualDiff::WraithConfig }
     before { allow(Kernel).to receive(:puts) } # silence stdout for the test
 

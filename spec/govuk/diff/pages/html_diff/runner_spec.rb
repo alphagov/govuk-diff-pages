@@ -1,25 +1,28 @@
 describe Govuk::Diff::Pages::HtmlDiff::Runner do
+  before { allow(Kernel).to receive(:puts) } # silence stdout for the test
+
   after(:all) do
-    test_output_dir = File.join(Govuk::Diff::Pages.root_dir, '..', '..', 'html_diff_dir')
-    FileUtils.rm_r test_output_dir, secure: true if Dir.exist?(test_output_dir)
+    FileUtils.rm_r(described_class.results_dir, secure: true) if Dir.exist?(described_class.results_dir)
   end
 
-  describe '#run' do
-    it 'calls differ once for every govuk page' do
-      config = double(:AppConfig, html_diff: double(:AppConfig, directory: 'html_diff_dir'))
-      expect(Govuk::Diff::Pages::AppConfig).to receive(:new).and_return(config)
-      govuk_pages = %w{ page1 page2 page3 }
-      expect(YAML).to receive(:load_file).with(Govuk::Diff::Pages.govuk_pages_file).and_return(govuk_pages)
-      differ = double :Differ
-      expect(differ).to receive(:differing_pages).and_return({})
-      expect(Govuk::Diff::Pages::HtmlDiff::Differ).to receive(:new).and_return(differ)
-      expect(differ).to receive(:diff).with('page1')
-      expect(differ).to receive(:diff).with('page2')
-      expect(differ).to receive(:diff).with('page3')
+  let(:yaml_file_uri) { FixtureHelper.locate("test_paths.yaml") }
 
-      runner = described_class.new
-      expect(runner).to receive(:display_browser_message)
-      runner.run
+  describe "#run" do
+    it "runs the differ against the provided paths, and builds a gallery of diffs" do
+      mock_differ = double("Govuk::Diff::Pages::HtmlDiff::Differ", diff: nil, differing_pages: { "/government/stats/foo" => "some-diff" })
+      allow(Govuk::Diff::Pages::HtmlDiff::Differ).to receive(:new).and_return(mock_differ)
+
+      expect(mock_differ).to receive(:diff).with("/government/stats/foo").once
+      expect(mock_differ).to receive(:diff).with("/government/stats/bar").once
+
+      Govuk::Diff::Pages::HtmlDiff::Runner.new(list_of_pages_uri: yaml_file_uri).run
+
+      gallery_file_location = "#{described_class.results_dir}/gallery.html"
+      expect(File.exist? gallery_file_location).to be true
+      gallery_contents = IO.read(gallery_file_location)
+      expect(gallery_contents).to include("1 pages out of 2 compared have differences")
+      expect(gallery_contents).to include("/government/stats/foo")
+      expect(gallery_contents).to_not include("/government/stats/bar")
     end
   end
 end
