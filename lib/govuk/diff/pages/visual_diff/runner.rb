@@ -12,8 +12,8 @@ module Govuk
           end
 
           def run
-            pages = YAML.load open(@list_of_pages_uri)
-            wraith_config = WraithConfig.new(pages: pages)
+            paths = YAML.load open(@list_of_pages_uri)
+            wraith_config = WraithConfig.new(paths: paths)
             wraith_config.write
 
             Kernel.puts "---> Creating Visual Diffs"

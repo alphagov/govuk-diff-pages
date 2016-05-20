@@ -5,13 +5,14 @@ describe Govuk::Diff::Pages::VisualDiff::Runner do
     before { allow(Kernel).to receive(:puts) } # silence stdout for the test
 
     it "executes wraith with the appropriate config" do
-      mock_config_handler = double("#{config_klass}", location: "some/file/path")
-      allow(config_klass).to receive(:new).and_return(mock_config_handler)
+      config_handler = config_klass.new(paths: ["/government/stats/foo", "/government/stats/bar"])
+      allow(config_klass).to receive(:new).and_return(config_handler)
+      allow(config_handler).to receive_messages(write: nil, delete: nil)
 
-      expect(config_klass).to receive(:new).with(pages: ["/government/stats/foo", "/government/stats/bar"])
-      expect(mock_config_handler).to receive(:write)
-      expect(Kernel).to receive(:system).with("wraith capture some/file/path")
-      expect(mock_config_handler).to receive(:delete)
+      expect(config_klass).to receive(:new).with(paths: ["/government/stats/foo", "/government/stats/bar"])
+      expect(config_handler).to receive(:write)
+      expect(Kernel).to receive(:system).with("wraith capture #{config_handler.location}")
+      expect(config_handler).to receive(:delete)
 
       Govuk::Diff::Pages::VisualDiff::Runner.new(list_of_pages_uri: yaml_file_uri).run
     end
