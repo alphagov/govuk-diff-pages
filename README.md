@@ -1,9 +1,8 @@
 # govuk-diff-pages
 
-This app provides a rake task to produce visual diffs as screenshots, HTML
-diffs and textual diffs of the production GOVUK website as compared with
-staging. Viewable as browser pages or directly in the terminal. It looks at the
-10 most popular pages (this is configurable) of each document format.
+This project provides a rake task to produce visual diffs as screenshots, HTML
+diffs and textual diffs of the production GOV.UK website as compared with
+staging. Viewable as browser pages or directly in the terminal.
 
 ## Screenshots
 
@@ -29,8 +28,7 @@ these pages.
 ### Dependencies
 
 - [ImageMagick] (http://www.imagemagick.org/script/index.php)
-- [phantomjs] (http://phantomjs.org/) - preferbaly 1.9 rather than 2.0
-
+- [phantomjs] (http://phantomjs.org/) - preferrably 1.9 rather than 2.0
 
 ## How to run
 

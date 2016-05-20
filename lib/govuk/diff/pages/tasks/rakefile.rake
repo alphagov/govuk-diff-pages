@@ -1,5 +1,3 @@
-require 'govuk/diff/pages'
-
 namespace :diff do
   desc 'produce visual diffs - set env var `URI` with location of a yaml file containing paths to diff'
   task visual: ['config:pre_flight_check'] do
