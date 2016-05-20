@@ -33,11 +33,11 @@ namespace :diff do
     end
   end
 
-  desc "clears the screen shots directory"
-  task :clear_shots do
-    puts "---> Clearing shots directory"
+  desc "clears the results directory"
+  task :clear_results do
+    puts "---> Clearing results directory"
     require 'fileutils'
-    FileUtils.remove_dir Govuk::Diff::Pages.shots_dir
+    FileUtils.remove_dir Govuk::Diff::Pages.results_dir
   end
 end
 

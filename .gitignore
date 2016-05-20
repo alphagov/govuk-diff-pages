@@ -21,8 +21,8 @@
 # OS-generated files
 .DS_Store
 
-# shots generated
-/shots
+# generated results
+/results
 
 # This is a gem
 Gemfile.lock

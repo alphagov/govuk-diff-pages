@@ -11,8 +11,8 @@ module Govuk
         File.dirname __dir__
       end
 
-      def self.shots_dir
-        File.expand_path(root_dir + "/../../shots")
+      def self.results_dir
+        File.expand_path(root_dir + "/../../results")
       end
 
       def self.wraith_config_template
