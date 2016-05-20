@@ -19,7 +19,7 @@ describe Govuk::Diff::Pages::VisualDiff::Runner do
 
       expect { described_class.new(list_of_pages_uri: input_file, kernel: kernel).run }.to output(
         "---> Creating Visual Diffs\n" +
-        "running: wraith capture /var/govuk/govuk-diff-pages/config/tmp_wraith_config.yaml\n"
+        "running: wraith capture #{config_handler.location}\n"
       ).to_stdout
     end
   end
