@@ -66,7 +66,7 @@ describe Govuk::Diff::Pages::HtmlDiff::Differ do
       it 'adds the base path to the list of differing pages' do
         expect(differ).to receive(:write_diff_page).with(target_base_path, instance_of(String))
         differ.diff(target_base_path)
-        expect(differ.differing_pages[target_base_path]).to end_with("html-diff/my_base_path.html")
+        expect(differ.differing_pages[target_base_path]).to end_with("html/my_base_path.html")
       end
     end
   end

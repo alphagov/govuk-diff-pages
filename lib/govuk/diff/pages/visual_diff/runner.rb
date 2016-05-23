@@ -7,8 +7,9 @@ module Govuk
     module Pages
       module VisualDiff
         class Runner
-          def initialize(list_of_pages_uri:)
+          def initialize(list_of_pages_uri:, kernel: Kernel)
             @list_of_pages_uri = list_of_pages_uri
+            @kernel = kernel
           end
 
           def run
@@ -16,10 +17,10 @@ module Govuk
             wraith_config = WraithConfig.new(paths: paths)
             wraith_config.write
 
-            Kernel.puts "---> Creating Visual Diffs"
             cmd = "wraith capture #{wraith_config.location}"
-            Kernel.puts "running: #{cmd}"
-            Kernel.system cmd
+            puts "---> Creating Visual Diffs"
+            puts "running: #{cmd}"
+            @kernel.system cmd
 
             wraith_config.delete
           end
