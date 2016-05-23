@@ -17,7 +17,7 @@ namespace :diff do
     Govuk::Diff::Pages::HtmlDiff::Runner.new(paths: paths).run
   end
 
-  desc 'produce text diffs'
+  desc 'produce text diffs - provide a yaml file with paths, see README for example'
   task :text do
     if ARGV.tap(&:shift).empty?
       abort "You must provide one or more YAML files containing the pages to diff"
