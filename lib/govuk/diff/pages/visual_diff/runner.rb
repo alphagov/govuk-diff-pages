@@ -3,8 +3,8 @@ module Govuk
     module Pages
       module VisualDiff
         class Runner
-          def initialize(list_of_pages_uri:, kernel: Kernel)
-            @paths = list_of_pages_uri
+          def initialize(paths:, kernel: Kernel)
+            @paths = paths
             @kernel = kernel
           end
 

@@ -11,8 +11,8 @@ module Govuk
             File.expand_path("../assets", __FILE__)
           end
 
-          def initialize(list_of_pages_uri:)
-            @pages = list_of_pages_uri
+          def initialize(paths:)
+            @paths = paths
             @differ = Differ.new
           end
 
@@ -24,8 +24,8 @@ module Govuk
         private
 
           def diff_pages
-            @pages.each do |page|
-              @differ.diff(page)
+            @paths.each do |path|
+              @differ.diff(path)
             end
           end
 

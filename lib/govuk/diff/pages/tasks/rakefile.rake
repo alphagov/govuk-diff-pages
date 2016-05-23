@@ -9,12 +9,12 @@ end
 namespace :diff do
   desc 'produce visual diffs - set env var `URI` with location of a yaml file containing paths to diff'
   task visual: ['config:pre_flight_check'] do
-    Govuk::Diff::Pages::VisualDiff::Runner.new(list_of_pages_uri: paths).run
+    Govuk::Diff::Pages::VisualDiff::Runner.new(paths: paths).run
   end
 
   desc 'produce html diffs - set env var `URI` with location of a yaml file containing paths to diff'
   task :html do
-    Govuk::Diff::Pages::HtmlDiff::Runner.new(list_of_pages_uri: paths).run
+    Govuk::Diff::Pages::HtmlDiff::Runner.new(paths: paths).run
   end
 
   desc 'produce text diffs'

@@ -1,9 +1,9 @@
 describe Govuk::Diff::Pages::VisualDiff::Runner do
   describe "#run" do
     let(:kernel) { double }
-    let(:input_file) { FixtureHelper.locate("test_paths.yaml") }
+    let(:input_paths) { FixtureHelper.load_paths_from("test_paths.yaml") }
     let(:config_handler_klass) { Govuk::Diff::Pages::VisualDiff::WraithConfig }
-    let(:config_handler) { config_handler_klass.new(paths: input_file) }
+    let(:config_handler) { config_handler_klass.new(paths: input_paths) }
 
     before do
       allow(config_handler_klass).to receive(:new).and_return(config_handler)
@@ -17,7 +17,7 @@ describe Govuk::Diff::Pages::VisualDiff::Runner do
       expect(kernel).to receive(:system).with("wraith capture #{config_handler.location}")
       expect(config_handler).to receive(:delete)
 
-      expect { described_class.new(list_of_pages_uri: input_file, kernel: kernel).run }.to output(
+      expect { described_class.new(paths: input_paths, kernel: kernel).run }.to output(
         "---> Creating Visual Diffs\n" +
         "running: wraith capture #{config_handler.location}\n"
       ).to_stdout

@@ -3,7 +3,7 @@ require 'govuk/diff/pages'
 require 'pry'
 
 module FixtureHelper
-  def self.locate(filename)
+  def self.load_paths_from(filename)
     YAML.load open(File.join(File.dirname(__dir__), "spec", "fixtures", filename))
   end
 end
