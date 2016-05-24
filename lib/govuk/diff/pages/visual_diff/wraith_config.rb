@@ -6,12 +6,12 @@ module Govuk
     module Pages
       module VisualDiff
         class WraithConfig
+          attr_reader :location
+
           def initialize(paths:)
             @paths = paths
             @location = Govuk::Diff::Pages.config_file("tmp_wraith_config.yaml")
           end
-
-          attr_reader :location
 
           def write
             config_template = YAML.load_file Govuk::Diff::Pages.wraith_config_template

@@ -1,19 +1,23 @@
+require 'yaml'
+require 'open-uri'
 require "govuk/diff/pages"
+
+def paths
+  YAML.load(open(ENV.fetch("URI")))
+end
 
 namespace :diff do
   desc 'produce visual diffs - set env var `URI` with location of a yaml file containing paths to diff'
   task visual: ['config:pre_flight_check'] do
-    yaml_uri = ENV.fetch("URI")
-    Govuk::Diff::Pages::VisualDiff::Runner.new(list_of_pages_uri: yaml_uri).run
+    Govuk::Diff::Pages::VisualDiff::Runner.new(paths: paths).run
   end
 
   desc 'produce html diffs - set env var `URI` with location of a yaml file containing paths to diff'
   task :html do
-    yaml_uri = ENV.fetch("URI")
-    Govuk::Diff::Pages::HtmlDiff::Runner.new(list_of_pages_uri: yaml_uri).run
+    Govuk::Diff::Pages::HtmlDiff::Runner.new(paths: paths).run
   end
 
-  desc 'produce text diffs'
+  desc 'produce text diffs - provide a yaml file with paths, see README for example'
   task :text do
     if ARGV.tap(&:shift).empty?
       abort "You must provide one or more YAML files containing the pages to diff"
@@ -21,8 +25,6 @@ namespace :diff do
 
     left  = ENV.fetch("LEFT", "www-origin.staging.publishing.service.gov.uk")
     right = ENV.fetch("RIGHT", "www-origin.publishing.service.gov.uk")
-
-    require 'yaml'
 
     ARGV.each do |file|
       Govuk::Diff::Pages::TextDiff::Runner.new(
