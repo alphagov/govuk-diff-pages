@@ -16,7 +16,7 @@ module Govuk
           def write
             config_template = YAML.load_file Govuk::Diff::Pages.wraith_config_template
             wraith_formatted_paths = @paths.each_with_object({}) do |path, hash|
-              hash[SecureRandom.uuid] = path
+              hash[path] =  "#{path}?cache=#{rand}"
             end
             config_template["paths"] = wraith_formatted_paths
             wraith_config = File.new(location, "w")
